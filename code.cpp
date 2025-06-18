@@ -6,11 +6,13 @@
 #define PROBABILITY 0.7  //生成 2 的概率
 
 int Menu();
+void setposition(short x, short y);
 int save();
 void rules();
 void fun_issave();
 void tips();
 void refresh();
+void content();
 int keydown();
 int game();
 void up();
@@ -22,16 +24,23 @@ void load();
 int check();
 
 int arr_a[6][6] = {{-1,-1,-1,-1,-1,-1},
+				   {-1, 0, 0, 0, 0, -1},
+				   {-1, 0, 0, 0, 0, -1},
+				   {-1, 0, 0, 0, 0, -1},
+				   {-1, 0, 0, 0, 0, -1},
+				   {-1,-1,-1,-1,-1,-1}};
 
-				   {-1, 0, 0, 0, 0, -1},
-				   {-1, 0, 0, 0, 0, -1},
-				   {-1, 0, 0, 0, 0, -1},
-				   {-1, 0, 0, 0, 0, -1},
-					{-1,-1,-1,-1,-1,-1}};
+void setposition(short x, short y)
+{
+	COORD coord = { x, y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 
 int main()
 {
 	Menu();
+	//content();
+	//refresh();
 	system("pause");
 	return 0;
 }
@@ -51,6 +60,8 @@ int Menu()
 			rules();
 			break;
 		case 2:
+			system("cls");
+			content();
 			while(state = game());
 			if(!state)
 			{
@@ -64,6 +75,8 @@ int Menu()
 			break;
 		case 3:
 			load();
+			system("cls");
+			content();
 			while(state = game());
 			if(!state)
 			{
@@ -92,11 +105,10 @@ int Menu()
 }
 
 int game()
-{
-	system("cls");
-	refresh();
+{	
 	new_num();
 	refresh();
+	Sleep(200);
 	//return keydown();
 	int isfail = check();
 		if(isfail == 1)
@@ -105,18 +117,18 @@ int game()
 		}
 		else if(isfail == 0)
 		{
+			setposition(2,26);
 			printf("你输了...还是不行吧!!!\n");
 			system("pause");
 			return 0;
 		}
 		else if(isfail == -1)
 		{
+			setposition(2,28);
 			printf("你赢了,算你厉害...\n");
 			system("pause");
 			return 0;
 		}
-
-	
 }
 
 int check()
@@ -518,40 +530,34 @@ int keydown()		//按键检测
 			refresh();
 			if(!game())
 				return 0;
-			printf("\n\n\n按 esc 键结束/暂停...\n");
         }
         else if (GetAsyncKeyState('S') & 0x8000) {
 			down();
 			refresh();
 			if(!game())
 				return 0;
-			printf("\n\n\n按 esc 键结束/暂停...\n");
         }
         else if (GetAsyncKeyState('A') & 0x8000) {
             left();
 			refresh();
 			if(!game())
 				return 0;
-			printf("\n\n\n按 esc 键结束/暂停...\n");
         }
         else if (GetAsyncKeyState('D') & 0x8000) {
             right();
 			refresh();
 			if(!game())
 				return 0;
-			printf("\n\n\n按 esc 键结束/暂停...\n");
         }
 	
-	
+		
 		Sleep(120);
 	 }
-	
 
 	return 1;
 }
 void refresh()
 {
-	system("cls");
 	char arr_b1[4][5] = {" ", " ", " ", " "};
 	char arr_b2[4][5] = {" ", " ", " ", " "};
 	char arr_b3[4][5] = {" ", " ", " ", " "};
@@ -594,28 +600,69 @@ void refresh()
 			strcpy(arr_b4[j],tmp);
 		}
 	}
+
+	// 刷新第一行
+	j = 0;
+	for(i = 34; i < 71; i+=11)
+	{
+		setposition(i,5);
+		printf("%4s",arr_b1[j]);
+		j++;
+	}
+
+	// 刷新第二行
+	j = 0;
+	for(i = 34; i < 71; i+=11)
+	{
+		setposition(i,10);
+		printf("%4s",arr_b2[j]);
+		j++;
+	}
+
+	// 刷新第三行
+	j = 0;
+	for(i = 34; i < 71; i+=11)
+	{
+		setposition(i,15);
+		printf("%4s",arr_b3[j]);
+		j++;
+	}
+
+	// 刷新第四行
+	j = 0;
+	for(i = 34; i < 71; i+=11)
+	{
+		setposition(i,20);
+		printf("%4s",arr_b4[j]);
+		j++;
+	}
+}
+
+void content()
+{
 	printf("\n\n\t\t\t\t............................................\n");
 	printf("\t\t\t\t.	  . 	     .	   	.          .\n");
 	printf("\t\t\t\t.	  . 	     . 		.          .\n");
-	printf("\t\t\t\t.  %4s   .   %4s   .   %4s   .   %4s   .\n",arr_b1[0] ,arr_b1[1],arr_b1[2],arr_b1[3]);
+	printf("\t\t\t\t.         .          .          .          .\n");
 	printf("\t\t\t\t.	  . 	     .		.          .\n");
 	printf("\t\t\t\t............................................\n");
 	printf("\t\t\t\t.	  . 	     .	   	.          .\n");
 	printf("\t\t\t\t.	  . 	     . 		.          .\n");
-	printf("\t\t\t\t.  %4s   .   %4s   .   %4s   .   %4s   .\n",arr_b2[0],arr_b2[1],arr_b2[2],arr_b2[3]);
+	printf("\t\t\t\t.         .          .          .          .\n");
 	printf("\t\t\t\t.	  . 	     .		.          .\n");
 	printf("\t\t\t\t............................................\n");
 	printf("\t\t\t\t.	  . 	     .	   	.          .\n");
 	printf("\t\t\t\t.	  . 	     . 		.          .\n");
-	printf("\t\t\t\t.  %4s   .   %4s   .   %4s   .   %4s   .\n",arr_b3[0],arr_b3[1],arr_b3[2],arr_b3[3]);
+	printf("\t\t\t\t.         .          .          .          .\n");
 	printf("\t\t\t\t.	  . 	     .		.          .\n");
 	printf("\t\t\t\t............................................\n");
 	printf("\t\t\t\t.	  . 	     .	   	.          .\n");
 	printf("\t\t\t\t.	  . 	     . 		.          .\n");
-	printf("\t\t\t\t.  %4s   .   %4s   .   %4s   .   %4s   .\n",arr_b4[0],arr_b4[1],arr_b4[2],arr_b4[3]);
+	printf("\t\t\t\t.         .          .          .          .\n");
 	printf("\t\t\t\t.	  . 	     .		.          .\n");
 	printf("\t\t\t\t............................................\n");
 }
+
 int save()
 {
 	FILE *fp;
